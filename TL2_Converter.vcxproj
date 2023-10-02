@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StringUtil.cpp" />
     <ClCompile Include="TextureConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TextureConverter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
