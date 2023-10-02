@@ -1,9 +1,14 @@
 #include <cstdio>
 #include <cstdlib>
+#include <stdint.h>
 
-//02_02 Š®—¹
-int  main() {
-	printf("Hello,World!\n");
+int  main(int argc,char* argv[]) {
+	
+	for (int32_t i = 0; i < argc; i++)
+	{
+		printf(argv[i]);
+		printf("\n");
+	}
 
 	system("pause");
 
