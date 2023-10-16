@@ -1,12 +1,13 @@
-#include <cstdio>
+ï»¿#include <cstdio>
 #include <cstdlib>
 #include <stdint.h>
 #include <DirectXTex.h>
 #include "TextureConverter.h"
+#include "StringUtil.h"
 
 int  main(int argc,char* argv[]) 
 {
-	//COMƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»
+	//COMãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆæœŸåŒ–
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr));
 
@@ -15,7 +16,7 @@ int  main(int argc,char* argv[])
 	TextureConverter converter;
 	converter.ConvertTextureWICToDDS(argv[kFilePath]);
 
-	//COMƒ‰ƒCƒuƒ‰ƒŠ‚ÌI—¹
+	//COMãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®çµ‚äº†
 	CoUninitialize();
 
 	system("pause");
