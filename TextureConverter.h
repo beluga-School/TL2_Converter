@@ -14,6 +14,8 @@ class TextureConverter
 public:
 	void ConvertTextureWICToDDS(const std::string& filepath);
 
+	static void OutputUsage();
+
 private:
 	//テクスチャファイル読み込み
 	void LoadWICTextureFromFile(const std::string& filepath);
