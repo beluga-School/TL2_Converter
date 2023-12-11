@@ -53,6 +53,15 @@ void TextureConverter::LoadWICTextureFromFile(const std::string& filepath)
 			mDirectoryPath += ConvertStringToWChar("\\");
 		}
 	}
+
+	ScratchImage converted;
+	result = Compress(mScratchImage.GetImages(), mScratchImage.GetImageCount(), mMetadata,
+		DXGI_FORMAT_BC7_UNORM_SRGB, TEX_COMPRESS_BC7_QUICK | TEX_COMPRESS_SRGB_OUT |
+		TEX_COMPRESS_PARALLEL, 1.0f, converted);
+	if (SUCCEEDED(result)) {
+		mScratchImage = std::move(converted);
+		mMetadata = mScratchImage.GetMetadata();
+	}
 }
 
 void TextureConverter::SaveDDSTextureToFile()
