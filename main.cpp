@@ -19,7 +19,7 @@ int  main(int argc,char* argv[])
 	//COMライブラリの終了
 	CoUninitialize();
 
-	system("pause");
+	//system("pause");
 
 	return 0;
 }
