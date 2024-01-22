@@ -16,8 +16,11 @@ int  main(int argc,char* argv[])
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr));
 
+	int numoptions = argc - NumArgument;
+	char** options = argv + NumArgument;
+
 	TextureConverter converter;
-	converter.ConvertTextureWICToDDS(argv[kFilePath]);
+	converter.ConvertTextureWICToDDS(argv[kFilePath], numoptions, options);
 
 	//COMライブラリの終了
 	CoUninitialize();

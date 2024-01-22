@@ -3,11 +3,11 @@
 
 using namespace DirectX;
 
-void TextureConverter::ConvertTextureWICToDDS(const std::string& filepath)
+void TextureConverter::ConvertTextureWICToDDS(const std::string& filepath, int numoption, char* options[])
 {
 	LoadWICTextureFromFile(filepath);
 
-	SaveDDSTextureToFile();
+	SaveDDSTextureToFile(numoption, options);
 }
 
 void TextureConverter::OutputUsage()
@@ -62,6 +62,34 @@ void TextureConverter::LoadWICTextureFromFile(const std::string& filepath)
 			mDirectoryPath += ConvertStringToWChar("\\");
 		}
 	}
+}
+
+void TextureConverter::SaveDDSTextureToFile(int numoption, char* options[])
+{
+	HRESULT result;
+
+	//出力ファイル名を設定
+	std::wstring filePath = mDirectoryPath + mFileName + L".dds";
+
+	size_t miplevel = 0;
+	for (int i = 0; i < numoption; i++)
+	{
+		if (std::string(options[i]) == "-ml")
+		{
+			miplevel = std::stoi(options[i + 1]);
+			break;
+		}
+	}
+
+	//ミップマップ生成
+	result = GenerateMipMaps(
+		mScratchImage.GetImages(), mScratchImage.GetImageCount(), 
+		mScratchImage.GetMetadata(),
+		TEX_FILTER_DEFAULT, miplevel, mMipChain);
+	if (SUCCEEDED(result)) {
+		mScratchImage = std::move(mMipChain);
+		mMetadata = mScratchImage.GetMetadata();
+	}
 
 	ScratchImage converted;
 	result = Compress(mScratchImage.GetImages(), mScratchImage.GetImageCount(), mMetadata,
@@ -71,16 +99,9 @@ void TextureConverter::LoadWICTextureFromFile(const std::string& filepath)
 		mScratchImage = std::move(converted);
 		mMetadata = mScratchImage.GetMetadata();
 	}
-}
 
-void TextureConverter::SaveDDSTextureToFile()
-{
+	//読み込んだディフューズテクスチャをSRGBとして扱う
 	mMetadata.format = MakeSRGB(mMetadata.format);
-
-	HRESULT result;
-
-	//出力ファイル名を設定
-	std::wstring filePath = mDirectoryPath + mFileName + L".dds";
 
 	//DDSファイル書き出し
 	result = SaveToDDSFile(mScratchImage.GetImages(), mScratchImage.GetImageCount(),
